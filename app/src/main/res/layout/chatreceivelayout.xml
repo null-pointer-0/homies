@@ -10,7 +10,7 @@
         android:layout_marginEnd="7dp"
         android:maxHeight="400dp"
         android:minHeight="30dp"
-        android:maxWidth="310dp" android:background="@drawable/receiver">
+        android:maxWidth="310dp" android:background="@drawable/receiver" android:layout_marginTop="5dp">
 
     <TextView
             android:text=" 12:00 pm"

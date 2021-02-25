@@ -36,6 +36,7 @@ class ChatAdapter(var context: Context, var msgs:ArrayList<Msgmodel>): RecyclerV
         }
         else
             (holder as recieverviewholder).rcvrmsg.text = msgmodel.message
+
     }
 
     override fun getItemCount(): Int {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.homies">
-
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -9,14 +10,19 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".Chatdetail">
-            android:windowSoftInputMode="adjustResize"
+        <activity android:name=".UI.Info">
         </activity>
-        <activity android:name=".Authentication.SignIn">
+        <activity android:name=".UI.Phone">
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".UI.Settings">
+        </activity>
+        <activity android:name=".UI.Chatdetail">
         </activity>
         <activity android:name=".Authentication.SignUp">
+        </activity>
+        <activity android:name=".UI.MainActivity">
+        </activity>
+        <activity android:name=".Authentication.SignIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.homies.MainActivity
+import com.example.homies.UI.MainActivity
 import com.example.homies.Models.User
 import com.example.homies.databinding.ActivitySignUpBinding
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -35,11 +35,10 @@ class SignUp : AppCompatActivity() {
                                             binding.enterpass.text.toString())
                         .addOnCompleteListener {
                             var name = binding.editname.text.toString()
-                            var email = binding.enterpass.text.toString()
+                            var email = binding.enteruser.text.toString()
                             var pass = binding.enterpass.text.toString()
                             if(it.isSuccessful){
-                                var user = User(name,email,pass)
-                                Toast.makeText(this,user.toString(),Toast.LENGTH_SHORT).show()
+                                var user = User(name,pass,email)
                                 var userid = it.result!!.user!!.uid
                                 fireDB.reference.child("users").child(userid).setValue(user)
                                 startActivity(Intent(this, MainActivity::class.java))

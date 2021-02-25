@@ -1,12 +1,14 @@
-package com.example.homies
+package com.example.homies.UI
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.example.homies.Adapter.FragmentAdapter
 import com.example.homies.Authentication.SignIn
+import com.example.homies.R
 import com.example.homies.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         binding.contentview.adapter = FragmentAdapter(supportFragmentManager)
         binding.tabview.setupWithViewPager(binding.contentview)
+        binding.progress1.isVisible = false
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -29,10 +32,19 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.logout->{auth.signOut()
-                            startActivity(Intent(this@MainActivity, SignIn::class.java))
-                            finish()}
+            R.id.logout ->{
+                auth.signOut()
+                startActivity(Intent(this@MainActivity, SignIn::class.java))
+                finish()
+            }
+            R.id.setting ->{
+                startActivity(Intent(this@MainActivity, Settings::class.java))
+            }
         }
         return true
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }

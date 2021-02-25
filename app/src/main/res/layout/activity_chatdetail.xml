@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Chatdetail"
+        tools:context=".UI.Chatdetail"
         android:background="#444245"
 >
     <LinearLayout
@@ -112,6 +112,7 @@
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="4dp" android:layout_marginEnd="4dp" app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintBottom_toTopOf="@+id/sendchat" android:id="@+id/allmessages"/>
+            app:layout_constraintBottom_toTopOf="@+id/sendchat" android:id="@+id/allmessages"
+            android:layout_marginBottom="4dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

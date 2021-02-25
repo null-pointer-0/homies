@@ -1,7 +1,7 @@
-package com.example.homies
+package com.example.homies.UI
 
-import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.homies.Adapter.ChatAdapter
 import com.example.homies.Models.Msgmodel
+import com.example.homies.Models.User
+import com.example.homies.R
 import com.example.homies.databinding.ActivityChatdetailBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -41,7 +43,7 @@ class Chatdetail : AppCompatActivity() {
         else
             Picasso.get().load(pfp).into(binding.profileimage)
         binding.onback.setOnClickListener {
-            startActivity(Intent(this@Chatdetail,MainActivity::class.java))
+            startActivity(Intent(this@Chatdetail, MainActivity::class.java))
         }
         var sender_room = senderid+receiverid
         var reciever_room = receiverid+senderid
@@ -59,6 +61,10 @@ class Chatdetail : AppCompatActivity() {
 
                 }
             })
+        binding.allmessages.post(Runnable {
+            binding.allmessages.scrollToPosition(adptr.getItemCount() - 1)
+
+        })
         binding.writing.setOnClickListener {
             binding.writing.requestFocus()
             binding.writing.isFocusableInTouchMode = true
@@ -80,6 +86,35 @@ class Chatdetail : AppCompatActivity() {
                     }
                 }
         }
+        binding.info.setOnClickListener {
+            var intent:Intent = Intent(this,Info::class.java)
+            intent.putExtra("uid",receiverid)
+            intent.putExtra("uname",username)
+            intent.putExtra("pfp",pfp)
+            startActivity(intent)
+        }
+        binding.call.setOnClickListener {
+            fireDb.reference.child("users").child(receiverid.toString())
+                .addValueEventListener(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        var u1 = snapshot.getValue(User::class.java)
+                        if(u1!!.private == false && u1!!.number != null){
+                            var phoneNumber = u1.number!!.toLong()
+                            val intent = Intent(Intent.ACTION_DIAL).apply {
+                                data = Uri.parse("tel:$phoneNumber")
+                            }
+                            if(intent.resolveActivity(packageManager) != null)
+                                startActivity(intent)
+                        }
+                        else if(u1!!.private == true){
+                            Toast.makeText(this@Chatdetail,"You can't make call to this user",
+                                Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(this@Chatdetail,error.message,Toast.LENGTH_SHORT).show()
+                    }
+                })
+        }
     }
-
 }

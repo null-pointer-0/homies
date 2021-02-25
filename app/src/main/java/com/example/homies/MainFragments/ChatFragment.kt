@@ -5,11 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.homies.Adapter.userAdapter
 import com.example.homies.Models.User
 import com.example.homies.databinding.FragmentChatBinding
+import com.example.homies.Async.mythread
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -34,19 +34,12 @@ class ChatFragment : Fragment() {
         fireDb.reference.child("users").addValueEventListener(object:ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 uList.clear()
-                for(ds:DataSnapshot in snapshot.children){
-                    var u1 = ds.getValue(User::class.java)
-                    u1!!.userid = ds.key.toString()
-                    if(u1.userid != auth.currentUser!!.uid) uList.add(u1)
-                }
-                adp.notifyDataSetChanged()
+                var t1 = mythread(snapshot,auth,adp,uList)
+                t1.run()
             }
             override fun onCancelled(error: DatabaseError) {
-
             }
-
         })
         return binding.root
     }
-
 }

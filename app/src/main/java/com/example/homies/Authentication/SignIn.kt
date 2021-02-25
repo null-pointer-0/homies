@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.homies.MainActivity
+import com.example.homies.UI.MainActivity
 import com.example.homies.Models.User
 import com.example.homies.R
 import com.example.homies.databinding.ActivitySignInBinding
@@ -38,8 +38,10 @@ class SignIn : AppCompatActivity() {
             mauth.signInWithEmailAndPassword(binding.enteruser.text.toString()
                 ,binding.enterpass.text.toString())
                 .addOnCompleteListener {
-                    if(it.isSuccessful)
+                    if(it.isSuccessful) {
                         startActivity(Intent(this, MainActivity::class.java))
+                        binding.enterpass.text.clear()
+                    }
                     else
                         Toast.makeText(this,it.exception?.message,Toast.LENGTH_SHORT).show()
                 }
@@ -50,9 +52,9 @@ class SignIn : AppCompatActivity() {
         binding.googleaccountbt.setOnClickListener {
             signIn()
         }
-//        if(mauth.currentUser != null){
-//            startActivity(Intent(this, MainActivity::class.java))
-//        }
+        if(mauth.currentUser != null){
+            startActivity(Intent(this, MainActivity::class.java))
+        }
     }
     private fun signIn() {
         val signInIntent = mgsc.signInIntent
@@ -81,7 +83,7 @@ class SignIn : AppCompatActivity() {
                     user2.userid = user!!.uid
                     user2.name = user!!.displayName.toString()
                     user2.pfp = user!!.photoUrl.toString()
-                    fireDb.getReference().child("users").child(user.uid).setValue(user2)
+                    fireDb.reference.child("users").child(user.uid).setValue(user2)
                 } else {
                     Snackbar.make(binding.root, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
                 }
